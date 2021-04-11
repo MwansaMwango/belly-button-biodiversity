@@ -19,33 +19,42 @@ d3.json("samples.json").then((data) => {
   });
 
   init();
-
 });
 
 function init() {
-  // Function to update chart
-  function updatePlotly(id, data) {
+  // Function to update h. bar chart
+  function updatePlotly(top10ByOtu) {
+    console.log("top10ByOtu", top10ByOtu)
+  // Reverse the array to accommodate Plotly's defaults
+    reversedData = top10ByOtu.reverse()
     // Create your trace.
-    // var trace = {
-    //     x: titles,
-    //     y: ratings,
-    //     type: "bar",
-    //     orientation: 'h',
-    //     marker: {
-    //         color: 'rgba(255,153,51,0.6)',
-    //         width: 1
-    //       }
-    //   };
-    //   //Create the data array for our plot
-    //   var data = [trace];
-    //   //Define our plot layout
-    //   var layout = {
-    //     title: "The highest critically acclaimed movies",
-    //     xaxis: { title: "Title" },
-    //     yaxis: { title: "Metascore (Critic) Rating"}
-    //   };
-    //   //Plot the chart to a div tag with id "bar-plot"
-    //   Plotly.newPlot("bar-plot", data, layout);
+    labels = reversedData.map(sample => String(sample.otu_id))
+    // Create an array of music provider labels
+    // console.log("OTU IDS",  top10ByOtu.map(sample => {return String(sample.otu_id)}));
+   
+    var trace = {
+      x: reversedData.map(sample => sample.sample_value),
+      // y: new Range(0,9),
+      y: reversedData.map(sample => sample.otu_id),
+      // text: top10ByOtu.map(sample => sample.otu_id),
+      type: "bar",
+      orientation: "h",
+      labels: labels,
+      marker: {
+        color: 'rgba(55,128,191,0.6)',
+        line: { width: 2 }
+      },
+    };
+    //Create the data array for our plot
+    var data = [trace];
+    //Define our plot layout
+    var layout = {
+      title: "Top 10 OTUs",
+      width: 600,
+      height: 800,
+     };
+    //Plot the chart to a div tag with id "bar-plot"
+    Plotly.newPlot("bar", data, layout);
   }
 
   function updateMetadata(selectedMetadata) {
@@ -72,7 +81,7 @@ function init() {
     console.log("otu_ids", otu_ids);
     subjectSampleArr = [];
     otu_ids.map(function (id, index) {
-      subjectSampleArr.push({ [id]: subjectSample[0].sample_values[index] }); // to assign key must use square brackets around key variable
+      subjectSampleArr.push({ 'otu_id': `OTU ${id}`, 'sample_value': subjectSample[0].sample_values[index] }); // to assign key must use square brackets around key variable
     });
     console.log("Selected Sample Arr", subjectSampleArr);
     // Sort by number of sample values in descending order
@@ -85,6 +94,8 @@ function init() {
 
     // Check sorted result
     console.log("Top 10 OTU Samples", top10ByOtu);
+    //Return top10ByUTU
+    return top10ByOtu
   }
 
   // On change to the DOM, call getData()
@@ -104,23 +115,23 @@ function init() {
     // console.log("Selected test subject metadata:", selectedMetadata);
 
     // Call function to filter data by testSubjectID
-    filterTop10ById(testSubjectIDVal);
+    var top10ByOtu = filterTop10ById(testSubjectIDVal);
     // Call function to update the meta data
     updateMetadata(selectedMetadata);
-    // Call function to update the chart
-    // updatePlotly(testSubjectIDVal, top10ByOtu);
+    // Call function to update the charts
+    updatePlotly(top10ByOtu);
   }
 
   // Initialise default values on load
   var defaultID = "940"; //must be string
-  filterTop10ById(defaultID);
-  var selectedMetadata = sample_data.metadata.filter((selectedMetadata) => {
+  var defaultMetadata = sample_data.metadata.filter((selectedMetadata) => {
     return selectedMetadata.id === +defaultID; // must return something, must parseint from hard coded string
   })[0]; // select first and only results from returned filtered array
+  var defaultTop10ByOtu = filterTop10ById(defaultID);
   // Update Demographic info / metadata
-  updateMetadata(selectedMetadata);
-  // Update Horizontal Bar Chart 
-  // updateMetadata(selectedMetadata);
-  // Update Bubble Chart 
+  updateMetadata(defaultMetadata);
+  // Update Horizontal Bar Chart
+  updatePlotly(defaultTop10ByOtu);
+  // TODO: Update Bubble Chart
   // updateMetadata(selectedMetadata);
 }
