@@ -27,34 +27,57 @@ function init() {
     console.log("top10ByOtu", top10ByOtu)
   // Reverse the array to accommodate Plotly's defaults
     reversedData = top10ByOtu.reverse()
-    // Create your trace.
-    labels = reversedData.map(sample => String(sample.otu_id))
-    // Create an array of music provider labels
-    // console.log("OTU IDS",  top10ByOtu.map(sample => {return String(sample.otu_id)}));
-   
-    var trace = {
+    // Create your Bar plot trace.
+    var trace1 = {
       x: reversedData.map(sample => sample.sample_value),
-      // y: new Range(0,9),
-      y: reversedData.map(sample => sample.otu_id),
-      // text: top10ByOtu.map(sample => sample.otu_id),
+      y:reversedData.map(sample =>  String(`OTU ${sample.otu_id}`)),
       type: "bar",
       orientation: "h",
-      labels: labels,
       marker: {
         color: 'rgba(55,128,191,0.6)',
         line: { width: 2 }
       },
     };
     //Create the data array for our plot
-    var data = [trace];
+    var data = [trace1];
     //Define our plot layout
     var layout = {
-      title: "Top 10 OTUs",
+      title: "Top 10 OTUs - Bar Chart",
       width: 600,
-      height: 800,
+      height: 800
      };
-    //Plot the chart to a div tag with id "bar-plot"
+    //Plot the chart to a div tag with id "bar"
     Plotly.newPlot("bar", data, layout);
+
+    // Create your bubble chart plot
+    var trace2 = {
+      x: reversedData.map(sample => sample.otu_id),
+      y: reversedData.map(sample => sample.sample_value),
+      mode: 'markers',
+      marker: {
+        size: reversedData.map(sample => sample.sample_value),
+        color: reversedData.map(sample => sample.otu_id),
+        colorscale:[[0, 'blue'],[0.25, 'green'],[0.5, 'yellow'], [0.75, 'rgb(87,47,19)'],[1, 'white']],
+        sizeref: 0.02,
+        cmin: 0,
+        cmax: 3500,
+        sizemode: 'area'
+      },
+      type: 'scatter'
+    };
+    
+    var data = [trace2];
+    
+    var layout = {
+      title: 'Top 10 OTUs - Bubble Chart',
+      showlegend: false,
+      height: 600,
+      width: 800,
+      xaxis: {title: "OTU ID"},
+
+    };
+    
+    Plotly.newPlot('bubble', data, layout);
   }
 
   function updateMetadata(selectedMetadata) {
@@ -81,7 +104,7 @@ function init() {
     console.log("otu_ids", otu_ids);
     subjectSampleArr = [];
     otu_ids.map(function (id, index) {
-      subjectSampleArr.push({ 'otu_id': `OTU ${id}`, 'sample_value': subjectSample[0].sample_values[index] }); // to assign key must use square brackets around key variable
+      subjectSampleArr.push({ 'otu_id': id, 'sample_value': subjectSample[0].sample_values[index] }); // to assign key must use square brackets around key variable
     });
     console.log("Selected Sample Arr", subjectSampleArr);
     // Sort by number of sample values in descending order
@@ -130,8 +153,6 @@ function init() {
   var defaultTop10ByOtu = filterTop10ById(defaultID);
   // Update Demographic info / metadata
   updateMetadata(defaultMetadata);
-  // Update Horizontal Bar Chart
+  // Update  Charts
   updatePlotly(defaultTop10ByOtu);
-  // TODO: Update Bubble Chart
-  // updateMetadata(selectedMetadata);
 }
