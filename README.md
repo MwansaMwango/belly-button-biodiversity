@@ -8,7 +8,7 @@ The dataset reveals that a small handful of microbial species (also called opera
 
 ## Deployment
 
-[Live Dashboard](https://mwansamwango.github.io/belly-button-biodiversity/)
+[Live Dashboard Link](https://mwansamwango.github.io/belly-button-biodiversity/)
 
 ![screenshot](static/images/screenshot_dash.png)
 
@@ -32,7 +32,7 @@ The dataset reveals that a small handful of microbial species (also called opera
 
 Gauge Chart from <https://plot.ly/javascript/gauge-charts/> to plot the weekly washing frequency of the individual.
 
-* Gauuge code to account for values ranging from 0 through 9.
+* Gauge code to account for values ranging from 0 through 9.
 
 * Updates the chart whenever a new sample is selected.
 
