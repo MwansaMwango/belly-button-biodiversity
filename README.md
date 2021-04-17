@@ -1,37 +1,51 @@
-## Welcome to GitHub Pages
+# Plot.ly - Belly Button Biodiversity
 
-You can use the [editor on GitHub](https://github.com/MwansaMwango/belly-button-biodiversity/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+![Bacteria by filterforge.com](Images/bacteria.jpg)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Interactive dashboard to explore the [Belly Button Biodiversity dataset](http://robdunnlab.com/projects/belly-button-biodiversity/), which catalogs the microbes that colonize human navels.
 
-### Markdown
+The dataset reveals that a small handful of microbial species (also called operational taxonomic units, or OTUs, in the study) were present in more than 70% of people, while the rest were relatively rare.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+![screenshot](static/images/screenshot_dash.png)
 
-```markdown
-Syntax highlighted code block
+## Deployment
 
-# Header 1
-## Header 2
-### Header 3
+[Live Dashboard](https://mwansamwango.github.io/belly-button-biodiversity/)
 
-- Bulleted
-- List
+## Dashboard Features
 
-1. Numbered
-2. List
+1. D3 library to read in `samples.json`.
 
-**Bold** and _Italic_ and `Code` text
+  ![bar Chart](static/images/hw01.png)
 
-[Link](url) and ![Image](src)
-```
+3. Plotly bubble chart that displays each sample.
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+![Bubble Chart](static/images/bubble_chart.png)
 
-### Jekyll Themes
+4. Displays the sample metadata, i.e., an individual's demographic information.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/MwansaMwango/belly-button-biodiversity/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+![hw](static/images/hw03.png)
 
-### Support or Contact
+5. Updates all of the plots any time that a new sample is selected.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+6. Displays weekly frequency wahses using guage with 6 washes assumed to be minimum.
+
+Gauge Chart from <https://plot.ly/javascript/gauge-charts/> to plot the weekly washing frequency of the individual.
+
+* Gauuge code to account for values ranging from 0 through 9.
+
+* Updates the chart whenever a new sample is selected.
+
+![Weekly Washing Frequency Gauge](static/images/gauge.png)
+
+## Technology Stack
+
+* Javascript
+* D3 
+* Refer to the [Plotly.js documentation](https://plot.ly/javascript/) when building the plots.
+
+### About the Data
+
+Hulcr, J. et al.(2012) _A Jungle in There: Bacteria in Belly Buttons are Highly Diverse, but Predictable_. Retrieved from: [http://robdunnlab.com/projects/belly-button-biodiversity/results-and-data/](http://robdunnlab.com/projects/belly-button-biodiversity/results-and-data/)
+
+- - -
