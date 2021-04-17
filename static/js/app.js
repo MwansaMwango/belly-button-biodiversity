@@ -30,7 +30,7 @@ function init() {
     // Create your Bar plot trace.
     var trace1 = {
       x: reversedData.map(sample => sample.sample_value),
-      y:reversedData.map(sample =>  String(`OTU ${sample.otu_id}`)),
+      y:reversedData.map(sample =>  String(`OTU ${sample.otu_id}`)), // must be string otherwise y-axis auto scales to value
       type: "bar",
       orientation: "h",
       marker: {
@@ -92,17 +92,17 @@ function init() {
       <p><strong>Belly Button Type</strong>: ${selectedMetadata.bbtype}</p>
       <p><strong>Wash Frequency</strong>: ${selectedMetadata.wfreq}</p> 
     `);
-    // TODO: Plot gauge
+    // Plot gauge
     var gaugeData = [
       {
         type: "indicator",
         mode: "gauge+number+delta",
-        value: selectedMetadata.wfreq,
-        title: { text: "Frequency of Washes", font: { size: 24 } },
-        delta: { reference: 0, increasing: { color: "RebeccaPurple" } },
+        value: selectedMetadata.wfreq, // frequency of washes
+        title: { text: "Weekly Frequency of Washes", font: { size: 24 } },
+        delta: { reference: 6, increasing: { color: "green" } }, // assume 6 washes perr week recommended
         gauge: {
           axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
-          bar: { color: "darkred" },
+          bar: { color: "blue" },
           bgcolor: "white",
           borderwidth: 2,
           bordercolor: "gray",
@@ -120,8 +120,8 @@ function init() {
     ];
     
     var layout = {
-      width: 500,
-      height: 400,
+      width: 350,
+      height: 350,
       margin: { t: 25, r: 25, l: 25, b: 25 },
       paper_bgcolor: "white",
       font: { color: "darkblue", family: "Arial" }
